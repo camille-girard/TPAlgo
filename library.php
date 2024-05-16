@@ -1,4 +1,7 @@
 <?php
+
+//ajouter des escapes pour l'affichange pour un rendu plus cool xd
+
 include 'bookManager.php';
 include 'utils.php';
 function mainMenu() {
@@ -13,7 +16,7 @@ function mainMenu() {
                 echo "Entrez une description: ";
                 $description = trim(fgets(STDIN));
                 echo "Est-ce en stock ? (oui/non): ";
-                $inStock = trim(fgets(STDIN)) === 'yes';
+                $inStock = trim(fgets(STDIN)) === 'oui';
                 $bookId = createBook($title, $description, $inStock);
                 echo "Livre ajouté avec succès avec ID: $bookId\n";
                 break;
@@ -25,11 +28,11 @@ function mainMenu() {
                 $id = trim(fgets(STDIN));
                 echo "Entrez le nouveau nom: ";
                 $title = trim(fgets(STDIN));
-                echo "Entrez la nouvelle description): ";
+                echo "Entrez la nouvelle description: ";
                 $description = trim(fgets(STDIN));
                 echo "Est-ce en stock ? (oui/non): ";
                 $stockInput = trim(fgets(STDIN));
-                $inStock = $stockInput === '' ? null : $stockInput === 'yes';
+                $inStock = $stockInput === '' ? null : $stockInput === 'oui';
                 modifyBook($id, $title, $description, $inStock);
                 break;
             case '4':
@@ -37,7 +40,7 @@ function mainMenu() {
                 $id = trim(fgets(STDIN));
                 deleteBook($id);
                 break;
-            case '5':
+            case '5': // a voir -> ca fonctionne pas
                 echo "Entrez la colonne à trier (nom, description, inStock): ";
                 $column = trim(fgets(STDIN));
                 echo "Par ordre (ASC/DESC): ";
@@ -47,7 +50,7 @@ function mainMenu() {
                     echo "ID: {$book['id']}, Name: {$book['name']}, Description: {$book['description']}, In Stock: " . ($book['inStock'] ? 'Yes' : 'No') . "\n";
                 }
                 break;
-            case '6':
+            case '6': // a voir -> ca fonctionne pas
                 echo "Entrez la colonne par laquelle effectuer la recherche (nom, description, inStock, identifiant): ";
                 $column = trim(fgets(STDIN));
                 echo "Entrez la valeur recherchée: ";

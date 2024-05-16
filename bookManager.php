@@ -42,7 +42,7 @@ function deleteBook($title) {
 function displayBooks() {
     $books = loadBooks();
     foreach ($books as $id => $book) {
-        echo "ID: $id, Titre: {$book['titre']}, Description: {$book['description']}, En Stock: " . ($book['inStock'] ? 'Oui' : 'Non') . "\n";
+        echo "ID: $id, Titre: {$book['Titre']}, Description: {$book['description']}, En Stock: " . ($book['inStock'] ? 'Oui' : 'Non') . "\n";
     }
 }
 ?>

@@ -1,0 +1,22 @@
+{
+    "book_662412829e7bd2.26508112": {
+        "Titre": "Tupac the Staffy",
+        "description": "Biographie de Tupac",
+        "inStock": false
+    },
+    "book_6645c043eaf658.22523132": {
+        "Titre": "Catalina fait un test",
+        "description": "Catalina teste le test",
+        "inStock": false
+    },
+    "book_6645c16107d533.49655531": {
+        "Titre": "Titi",
+        "description": "toto",
+        "inStock": true
+    },
+    "book_6645c176ae9a80.35168186": {
+        "Titre": "Changer la vie",
+        "description": "Changer la vie de ce livre",
+        "inStock": false
+    }
+}
