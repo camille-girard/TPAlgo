@@ -1,0 +1,10 @@
+[
+    {
+        "timestamp": "2024-05-16 16:07:57",
+        "action": "Ajout du livre ID: book_66462f5d9d236, Titre: Les Aristochats"
+    },
+    {
+        "timestamp": "2024-05-16 16:08:30",
+        "action": "Affichage de tous les livres"
+    }
+]

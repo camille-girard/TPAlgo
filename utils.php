@@ -1,5 +1,6 @@
 <?php
 include_once 'storageManager.php';
+include_once 'historyManager.php';
 
 function sortBooks($books, $column, $order) {
     // Vérifier si le tableau de livres n'est pas vide
@@ -9,8 +10,8 @@ function sortBooks($books, $column, $order) {
 
     usort($books, function ($a, $b) use ($column, $order) {
         // Vérifier si les clés existent dans les éléments
-        $valA = isset($a[$column]) ? $a[$column] : '';
-        $valB = isset($b[$column]) ? $b[$column] : '';
+        $valA = $a[$column] ?? '';
+        $valB = $b[$column] ?? '';
 
         if ($order == 'ASC') {
             return $valA <=> $valB;
