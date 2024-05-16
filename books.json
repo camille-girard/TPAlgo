@@ -18,5 +18,10 @@
         "Titre": "Changer la vie",
         "description": "Changer la vie de ce livre",
         "inStock": false
+    },
+    "book_664620527cdd1": {
+        "Titre": "Les recettes de ma grand-m\u00e8re",
+        "description": "Toutes les recettes de mamie les plus loufoques",
+        "inStock": false
     }
 }
