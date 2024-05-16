@@ -17,6 +17,9 @@ function merge($left, $right, $column, $order) {
     $j = 0;
 
     while ($i < count($left) && $j < count($right)) {
+        if (!isset($left[$i][$column]) || !isset($right[$j][$column])) {
+            break;
+        }
         if ($order === 'ASC' ? $left[$i][$column] <= $right[$j][$column] : $left[$i][$column] >= $right[$j][$column]) {
             $result[] = $left[$i++];
         } else {
@@ -31,7 +34,6 @@ function merge($left, $right, $column, $order) {
     }
     return $result;
 }
-
 function binarySearch($books, $column, $value) {
     $low = 0;
     $high = count($books) - 1;
