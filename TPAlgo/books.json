@@ -1,7 +1,27 @@
 {
     "book_662412829e7bd2.26508112": {
-        "name": "Tupac the Staffy",
+        "Titre": "Tupac the Staffy",
         "description": "Biographie de Tupac",
         "inStock": false
+    },
+    "book_6645c043eaf658.22523132": {
+        "Titre": "Catalina fait un test",
+        "description": "Catalina teste le test",
+        "inStock": false
+    },
+    "book_6645c16107d533.49655531": {
+        "Titre": "Titi",
+        "description": "toto",
+        "inStock": false
+    },
+    "book_6645c176ae9a80.35168186": {
+        "Titre": "titi toto",
+        "description": "toto",
+        "inStock": false
+    },
+    "book_6645c1b49edc39.24079727": {
+        "Titre": "ccacac",
+        "description": "ajjasja",
+        "inStock": true
     }
 }

@@ -13,7 +13,7 @@ function mainMenu() {
                 echo "Entrez une description: ";
                 $description = trim(fgets(STDIN));
                 echo "Est-ce en stock ? (oui/non): ";
-                $inStock = trim(fgets(STDIN)) === 'yes';
+                $inStock = trim(fgets(STDIN)) === 'oui';
                 $bookId = createBook($title, $description, $inStock);
                 echo "Livre ajouté avec succès avec ID: $bookId\n";
                 break;
