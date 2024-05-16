@@ -3,7 +3,7 @@ include_once 'storageManager.php';
 function createBook($title, $description, $inStock) {
     $books = loadBooks();
     $id = uniqid("book_", true);
-    $books[$id] = ['Titre' => $title, 'description' => $description, 'inStock' => $inStock];
+    $books[$id] = ['titre' => $title, 'description' => $description, 'inStock' => $inStock];
     saveBooks($books);
     return $id;
 }
@@ -14,7 +14,7 @@ function modifyBook($id, $title, $description, $inStock) {
         echo "Aucun livre n'a été trouvé avec cet id: $id.\n";
         return;
     }
-    if ($title !== '') $books[$id]['Titre'] = $title;
+    if ($title !== '') $books[$id]['titre'] = $title;
     if ($description !== '') $books[$id]['description'] = $description;
     if ($inStock !== null) $books[$id]['inStock'] = $inStock;
     saveBooks($books);
@@ -25,7 +25,7 @@ function deleteBook($title) {
     $books = loadBooks();
     $found = false;
     foreach ($books as $id => $book) {
-        if ($book['Titre'] == $title) {
+        if ($book['titre'] == $title) {
             unset($books[$id]);
             $found = true;
         }
@@ -42,7 +42,7 @@ function deleteBook($title) {
 function displayBooks() {
     $books = loadBooks();
     foreach ($books as $id => $book) {
-        echo "ID: $id, Titre: {$book['Titre']}, Description: {$book['description']}, En Stock: " . ($book['inStock'] ? 'Oui' : 'Non') . "\n";
+        echo "ID: $id, Titre: {$book['titre']}, Description: {$book['description']}, En Stock: " . ($book['inStock'] ? 'Oui' : 'Non') . "\n";
     }
 }
 ?>
