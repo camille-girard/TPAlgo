@@ -23,5 +23,10 @@
         "Titre": "Les recettes de ma grand-m\u00e8re",
         "description": "Toutes les recettes de mamie les plus loufoques",
         "inStock": false
+    },
+    "book_66462f5d9d236": {
+        "Titre": "Les Aristochats",
+        "description": "Les aventures de Duchesse, Marie, Toulouse et Berlioze",
+        "inStock": false
     }
 }
