@@ -98,5 +98,13 @@
     {
         "timestamp": "2024-05-19 17:54:26",
         "action": "Recherche du livre par titre avec la valeur catalina"
+    },
+    {
+        "timestamp": "2024-05-19 17:58:13",
+        "action": "Tri des livres par description en ordre DESC"
+    },
+    {
+        "timestamp": "2024-05-19 18:02:43",
+        "action": "Tri des livres par titre en ordre ASC"
     }
 ]

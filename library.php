@@ -99,8 +99,8 @@ do {
 
         case 6:  // Trier les livres
             $books = loadBooks();
-            foreach ($books as $index => $book) {
-                $books[$index]['ID'] = $index + 1;  // Ajouter l'ID basé sur l'index + 1 pour correspondre à vos ID
+            foreach ($books as $key => $book) {
+                $books[$key]['originalID'] = $key;  // Utilisez les clés comme ID originaux
             }
             $column = readline("Entrez la colonne à trier (titre, description, inStock): ");
             $order = readline("Par ordre (ASC/DESC): ");

@@ -4,43 +4,34 @@ include_once 'historyManager.php';
 
 function mergeSort(&$array, $column, $order = 'ASC') {
     if (count($array) < 2) {
-        return;
+        return;  // Le tableau est déjà trié s'il contient 0 ou 1 élément
     }
     $mid = floor(count($array) / 2);
     $left = array_slice($array, 0, $mid);
     $right = array_slice($array, $mid);
 
-    mergeSort($left, $column, $order);
-    mergeSort($right, $column, $order);
+    mergeSort($left, $column, $order);  // Tri récursif de la partie gauche
+    mergeSort($right, $column, $order); // Tri récursif de la partie droite
 
     $i = 0;
     $j = 0;
     $k = 0;
-
     while ($i < count($left) && $j < count($right)) {
         if (($order === 'ASC' && $left[$i][$column] <= $right[$j][$column]) ||
             ($order === 'DESC' && $left[$i][$column] > $right[$j][$column])) {
-            $array[$k] = $left[$i];
-            $i++;
+            $array[$k++] = $left[$i++];
         } else {
-            $array[$k] = $right[$j];
-            $j++;
+            $array[$k++] = $right[$j++];
         }
-        $k++;
     }
-
     while ($i < count($left)) {
-        $array[$k] = $left[$i];
-        $i++;
-        $k++;
+        $array[$k++] = $left[$i++];
     }
-
     while ($j < count($right)) {
-        $array[$k] = $right[$j];
-        $j++;
-        $k++;
+        $array[$k++] = $right[$j++];
     }
 }
+
 
 
 function binarySearch($array, $column, $value) {
