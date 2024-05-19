@@ -6,5 +6,41 @@
     {
         "timestamp": "2024-05-16 16:08:30",
         "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:07:18",
+        "action": "Ajout du livre ID: book_6649eb7669a3b, Titre: test"
+    },
+    {
+        "timestamp": "2024-05-19 12:20:18",
+        "action": "Ajout du livre ID: , Titre: sudqsj"
+    },
+    {
+        "timestamp": "2024-05-19 12:21:39",
+        "action": "Ajout du livre ID: , Titre: Catalina"
+    },
+    {
+        "timestamp": "2024-05-19 12:21:53",
+        "action": "Ajout du livre ID: , Titre: test"
+    },
+    {
+        "timestamp": "2024-05-19 12:23:50",
+        "action": "Ajout du livre ID: , Titre: sbsbsb"
+    },
+    {
+        "timestamp": "2024-05-19 12:24:06",
+        "action": "Ajout du livre ID: 3, Titre: shqqhs"
+    },
+    {
+        "timestamp": "2024-05-19 12:24:58",
+        "action": "Ajout du livre ID: 4, Titre: sqs"
+    },
+    {
+        "timestamp": "2024-05-19 12:28:41",
+        "action": "Ajout du livre ID: book_1, Titre: Catalina"
+    },
+    {
+        "timestamp": "2024-05-19 12:30:33",
+        "action": "Ajout du livre ID: book_2, Titre: Catalina"
     }
 ]

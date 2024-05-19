@@ -3,6 +3,7 @@
 require_once 'utils.php';
 require_once 'storageManager.php';
 require_once 'historyManager.php';
+require_once 'bookManager.php';
 
 // Charger les livres depuis le fichier JSON
 $books = loadBooks();
@@ -33,16 +34,9 @@ do {
             // Ajouter un livre
             $title = readline("Entrez le titre du livre: ");
             $description = readline("Entrez la description du livre: ");
-            $inStock = readline("Le livre est-il en stock (yes/no): ") === 'yes';
+            $inStock = readline("Le livre est-il en stock (oui/non): ") === 'oui';
 
-            $bookId = 'book_' . uniqid();
-            $books[$bookId] = [
-                'Titre' => $title,
-                'description' => $description,
-                'inStock' => $inStock
-            ];
-
-            saveBooks($books);
+            $bookId = createBook($title, $description, $inStock);
             echo "Livre ajouté avec succès!\n";
 
             // Ajouter à l'historique
@@ -146,14 +140,5 @@ do {
     }
 } while ($choice != 8);
 
-// Fonction pour afficher les livres
-function displayBooks($books) {
-    foreach ($books as $id => $book) {
-        $title = $book['Titre'] ?? '';
-        $description = $book['description'] ?? '';
-        $inStock = $book['inStock'] ?? 'No';
 
-        echo "ID: $id, Title: $title, Description: $description, In Stock: " . ($inStock ? 'Yes' : 'No') . "\n";
-    }
-}
-?>
+

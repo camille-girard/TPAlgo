@@ -1,12 +1,33 @@
 <?php
 include_once 'storageManager.php';
+
+// Charger les livres depuis le fichier JSON
 function createBook($title, $description, $inStock) {
     $books = loadBooks();
-    $id = uniqid("book_", true);
-    $books[$id] = ['titre' => $title, 'description' => $description, 'inStock' => $inStock];
+
+    // Initialiser l'ID maximal trouvé à 0
+    $maxId = 0;
+
+    // Parcourir les clés pour trouver le plus grand ID
+    foreach ($books as $key => $value) {
+        $idNumber = intval(str_replace('book_', '', $key));  // Extrait le numéro après 'book_'
+        if ($idNumber > $maxId) {
+            $maxId = $idNumber;
+        }
+    }
+
+    // L'ID suivant est le maximum actuel + 1
+    $newId = 'book_' . ($maxId + 1);
+
+    // Ajouter le nouveau livre avec l'ID incrémenté
+    $books[$newId] = ['titre' => $title, 'description' => $description, 'inStock' => $inStock];
+
+    // Sauvegarder les livres mis à jour
     saveBooks($books);
-    return $id;
+
+    return $newId;
 }
+
 
 function modifyBook($id, $title, $description, $inStock) {
     $books = loadBooks();
@@ -45,4 +66,15 @@ function displayBooks() {
         echo "ID: $id, Titre: {$book['titre']}, Description: {$book['description']}, En Stock: " . ($book['inStock'] ? 'Oui' : 'Non') . "\n";
     }
 }
-?>
+
+// Fonction pour afficher les livres
+/*function displayBooks($books) {
+    foreach ($books as $id => $book) {
+        $title = $book['Titre'] ?? '';
+        $description = $book['description'] ?? '';
+        $inStock = $book['inStock'] ?? 'No';
+
+        echo "ID: $id, Title: $title, Description: $description, In Stock: " . ($inStock ? 'Yes' : 'No') . "\n";
+    }
+}
+?>*/

@@ -1,32 +1,12 @@
 {
-    "book_662412829e7bd2.26508112": {
-        "Titre": "Tupac the Staffy",
-        "description": "Biographie de Tupac",
-        "inStock": false
-    },
-    "book_6645c043eaf658.22523132": {
-        "Titre": "Catalina fait un test",
-        "description": "Catalina teste le test",
-        "inStock": false
-    },
-    "book_6645c16107d533.49655531": {
-        "Titre": "Titi",
-        "description": "toto",
+    "book_1": {
+        "titre": "Catalina",
+        "description": "fait un test",
         "inStock": true
     },
-    "book_6645c176ae9a80.35168186": {
-        "Titre": "Changer la vie",
-        "description": "Changer la vie de ce livre",
-        "inStock": false
-    },
-    "book_664620527cdd1": {
-        "Titre": "Les recettes de ma grand-m\u00e8re",
-        "description": "Toutes les recettes de mamie les plus loufoques",
-        "inStock": false
-    },
-    "book_66462f5d9d236": {
-        "Titre": "Les Aristochats",
-        "description": "Les aventures de Duchesse, Marie, Toulouse et Berlioze",
+    "book_2": {
+        "titre": "Catalina",
+        "description": "12",
         "inStock": false
     }
 }
