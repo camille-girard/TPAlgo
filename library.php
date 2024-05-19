@@ -55,7 +55,7 @@ do {
             if (isset($books[$bookId])) {
                 $title = readline("Entrez le nouveau titre du livre: ");
                 $description = readline("Entrez la nouvelle description du livre: ");
-                $inStock = readline("Le livre est-il en stock (yes/no): ") === 'yes';
+                $inStock = readline("Le livre est-il en stock (oui/non): ") === 'oui';
 
                 modifyBook($books, $bookId, $title, $description, $inStock);
 

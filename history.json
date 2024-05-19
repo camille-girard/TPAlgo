@@ -106,5 +106,25 @@
     {
         "timestamp": "2024-05-19 18:02:43",
         "action": "Tri des livres par titre en ordre ASC"
+    },
+    {
+        "timestamp": "2024-05-19 18:07:15",
+        "action": "Ajout du livre ID: 5, Titre: tata"
+    },
+    {
+        "timestamp": "2024-05-19 18:07:34",
+        "action": "Modification du livre ID: 3, Nouveau titre: "
+    },
+    {
+        "timestamp": "2024-05-19 18:08:41",
+        "action": "Modification du livre ID: 2, Nouveau titre: catalina"
+    },
+    {
+        "timestamp": "2024-05-19 18:08:54",
+        "action": "Suppression du livre par titre avec la valeur catalina"
+    },
+    {
+        "timestamp": "2024-05-19 18:09:04",
+        "action": "Affichage de tous les livres"
     }
 ]
