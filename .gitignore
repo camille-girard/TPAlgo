@@ -1,5 +1,5 @@
 # java specific
-#.idea
+.idea
 
 # macos specific
 .DS_Store
