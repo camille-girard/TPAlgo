@@ -1,12 +1,2 @@
 {
-    "book_1": {
-        "titre": "modify",
-        "description": "js",
-        "inStock": true
-    },
-    "book_2": {
-        "titre": "Catalina",
-        "description": "12",
-        "inStock": false
-    }
 }
