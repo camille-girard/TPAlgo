@@ -26,7 +26,8 @@ do {
     echo "5. Trier les livres\n";
     echo "6. Rechercher un livre\n";
     echo "7. Afficher l'historique\n";
-    echo "8. Sortir\n";
+    echo "8. Afficher un livre\n";
+    echo "9. Sortir\n";
     $choice = readline("Entrez votre choix: ");
 
     switch ($choice) {
@@ -63,8 +64,10 @@ do {
 
                 echo "Livre modifié avec succès!\n";
 
+
                 // Ajouter à l'historique
                 addHistoryEntry($history, "Modification du livre ID: $bookId, Nouveau titre: $title");
+
 
             } else {
                 echo "Livre non trouvé.\n";
@@ -122,16 +125,48 @@ do {
                     echo "Timestamp: {$entry['timestamp']}, Action: {$entry['action']}\n";
                 }
             }
+
             break;
 
         case 8:
-            echo "A bientôt!\n";
-            exit();
+            // Afficher un seul livre
+            $searchTerm = readline("Entrez le terme exact de recherche: ");
+            $results = array_filter($books, function($book) use ($searchTerm) {
+            return $book['Titre'] === $searchTerm || $book['description'] === $searchTerm;
+            });
+            if ($results) {
+                displayBook(reset($results));
+            } else {
+                echo "Aucun livre avec ce titre exact trouvé.\n";
+            }
+        break;
+
+        case 9:
+            exit("A bientôt!\n");
 
         default:
-            echo "Choix non valide.Veuillez saisir un chiffre entre 1 et 8.\n";
+            echo "Choix non valide. Veuillez saisir un chiffre entre 1 et 8.\n";
     }
-} while ($choice != 8);
+} while ($choice != 9);
 
+// Fonction pour afficher les livres
+function displayBooks($books) {
+    foreach ($books as $id => $book) {
+        $title = $book['Titre'] ?? '';
+        $description = $book['description'] ?? '';
+        $inStock = $book['inStock'] ?? 'No';
 
+        echo "ID: $id, Title: $title, Description: $description, In Stock: " . ($inStock ? 'Yes' : 'No') . "\n";
+    }
+}
 
+// Fonction pour afficher un seul livre
+function displayBook($book) {
+    $title = $book['Titre'] ?? '';
+    $description = $book['description'] ?? '';
+    $inStock = $book['inStock'] ?? 'No';
+
+    echo "Title: $title, Description: $description, In Stock: " . ($inStock ? 'Yes' : 'No') . "\n";
+}
+
+?>
