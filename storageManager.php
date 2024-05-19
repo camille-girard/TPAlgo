@@ -15,6 +15,10 @@ function loadBooks() {
         return null;
     }
 
+    if (empty($data)) {
+        return [];
+    }
+
     return $data;
 }
 

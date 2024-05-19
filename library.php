@@ -5,12 +5,6 @@ require_once 'storageManager.php';
 require_once 'historyManager.php';
 require_once 'bookManager.php';
 
-// Charger les livres depuis le fichier JSON
-$books = loadBooks();
-if ($books === null) {
-    $books = [];
-}
-
 // Charger l'historique depuis le fichier JSON
 $history = loadHistory();
 if ($history === null) {
@@ -19,6 +13,15 @@ if ($history === null) {
 
 // Affichage du menu et saisie de l'utilisateur
 do {
+    $history = loadHistory();
+    if ($history === null) {
+        $history = [];
+    }
+    $books = loadBooks();
+    if ($books === null) {
+        $books = [];
+    }
+    echo "Menu:\n";
     echo "1. Ajouter un livre\n";
     echo "2. Afficher les livres\n";
     echo "3. Modifier un livre\n";
@@ -76,18 +79,15 @@ do {
 
         case 4:
             // Supprimer un livre
-            $bookId = readline("Entrez l'ID du livre à supprimer: ");
-            if (isset($books[$bookId])) {
-                unset($books[$bookId]);
-                saveBooks($books);
-                echo "Livre supprimé avec succès!\n";
-
-                // Ajouter à l'historique
-                addHistoryEntry($history, "Suppression du livre ID: $bookId");
-
-            } else {
-                echo "Livre non trouvé.\n";
+            if (empty($books)) {
+                echo "Il n'y a pas de livres à supprimer.\n";
+                break;
             }
+            $question = readline("Voulez-vous supprimer un livre par ID, par titre, par description ou s'il est en stock? (id/titre/description/inStock): ");
+            $value = readline("Entrez la valeur du critère: ");
+            deleteBookByCriterion($books, $question, $value);
+            addHistoryEntry($history, "Suppression du livre par $question avec la valeur $value");
+
             break;
 
         case 5:
@@ -149,17 +149,6 @@ do {
     }
 } while ($choice != 9);
 
-// Fonction pour afficher les livres
-function displayBooks($books) {
-    foreach ($books as $id => $book) {
-        $title = $book['Titre'] ?? '';
-        $description = $book['description'] ?? '';
-        $inStock = $book['inStock'] ?? 'No';
-
-        echo "ID: $id, Title: $title, Description: $description, In Stock: " . ($inStock ? 'Yes' : 'No') . "\n";
-    }
-}
-
 // Fonction pour afficher un seul livre
 function displayBook($book) {
     $title = $book['Titre'] ?? '';
@@ -169,4 +158,4 @@ function displayBook($book) {
     echo "Title: $title, Description: $description, In Stock: " . ($inStock ? 'Yes' : 'No') . "\n";
 }
 
-?>
+
