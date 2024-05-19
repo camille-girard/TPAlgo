@@ -5,9 +5,7 @@ include_once 'storageManager.php';
 function createBook($title, $description, $inStock) {
     $books = loadBooks();
 
-    // Initialiser l'ID maximal trouvé à 0
     $maxId = 0;
-
     // Parcourir les clés pour trouver le plus grand ID
     foreach ($books as $key => $value) {
         $idNumber = intval(str_replace('book_', '', $key));  // Extrait le numéro après 'book_'
@@ -31,18 +29,13 @@ function createBook($title, $description, $inStock) {
 
 function modifyBook($id, $title, $description, $inStock) {
     $books = loadBooks();
-    if (!isset($books[$id])) {
-        echo "Aucun livre n'a été trouvé avec cet id: $id.\n";
-        return;
-    }
     if ($title !== '') $books[$id]['titre'] = $title;
     if ($description !== '') $books[$id]['description'] = $description;
     if ($inStock !== null) $books[$id]['inStock'] = $inStock;
     saveBooks($books);
-    echo "Le livre est bien modifié.\n";
 }
 
-function deleteBook($title) {
+function deleteBookByTitle($title) {
     $books = loadBooks();
     $found = false;
     foreach ($books as $id => $book) {
@@ -60,21 +53,32 @@ function deleteBook($title) {
 }
 
 
-function displayBooks() {
-    $books = loadBooks();
-    foreach ($books as $id => $book) {
-        echo "ID: $id, Titre: {$book['titre']}, Description: {$book['description']}, En Stock: " . ($book['inStock'] ? 'Oui' : 'Non') . "\n";
-    }
-}
 
 // Fonction pour afficher les livres
-/*function displayBooks($books) {
+function displayBooks($books) {
+    // Déterminer la longueur maximale pour chaque colonne pour un alignement propre
+    $maxLengthId = $maxLengthTitle = $maxLengthDesc = $maxLengthStock = 0;
+
     foreach ($books as $id => $book) {
-        $title = $book['Titre'] ?? '';
+        $maxLengthId = max($maxLengthId, strlen($id));
+        $maxLengthTitle = max($maxLengthTitle, strlen($book['titre'] ?? ''));
+        $maxLengthDesc = max($maxLengthDesc, strlen($book['description'] ?? ''));
+    }
+
+    // En-tête du tableau
+    echo "+-" . str_repeat('-', $maxLengthId) . "-+-" . str_repeat('-', $maxLengthTitle) . "-+-" . str_repeat('-', $maxLengthDesc) . "-+-" . str_repeat('-', 10) . "-+\n";
+    echo "| " . str_pad("ID", $maxLengthId) . " | " . str_pad("Title", $maxLengthTitle) . " | " . str_pad("Description", $maxLengthDesc) . " | " . str_pad("In Stock", 10) . " |\n";
+    echo "+-" . str_repeat('-', $maxLengthId) . "-+-" . str_repeat('-', $maxLengthTitle) . "-+-" . str_repeat('-', $maxLengthDesc) . "-+-" . str_repeat('-', 10) . "-+\n";
+
+    // Afficher les données de chaque livre
+    foreach ($books as $id => $book) {
+        $title = $book['titre'] ?? '';
         $description = $book['description'] ?? '';
         $inStock = $book['inStock'] ?? 'No';
-
-        echo "ID: $id, Title: $title, Description: $description, In Stock: " . ($inStock ? 'Yes' : 'No') . "\n";
+        echo "| " . str_pad($id, $maxLengthId) . " | " . str_pad($title, $maxLengthTitle) . " | " . str_pad($description, $maxLengthDesc) . " | " . str_pad(($inStock ? 'Yes' : 'No'), 10) . " |\n";
     }
+
+    // Pied de page du tableau
+    echo "+-" . str_repeat('-', $maxLengthId) . "-+-" . str_repeat('-', $maxLengthTitle) . "-+-" . str_repeat('-', $maxLengthDesc) . "-+-" . str_repeat('-', 10) . "-+\n";
 }
-?>*/
+

@@ -42,5 +42,41 @@
     {
         "timestamp": "2024-05-19 12:30:33",
         "action": "Ajout du livre ID: book_2, Titre: Catalina"
+    },
+    {
+        "timestamp": "2024-05-19 12:33:35",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:34:24",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:36:29",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:36:49",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:38:27",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:38:45",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:39:09",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:39:20",
+        "action": "Affichage de tous les livres"
+    },
+    {
+        "timestamp": "2024-05-19 12:51:10",
+        "action": "Modification du livre ID: book_1, Nouveau titre: modify"
     }
 ]

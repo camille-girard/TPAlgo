@@ -30,8 +30,7 @@ do {
     $choice = readline("Entrez votre choix: ");
 
     switch ($choice) {
-        case 1:
-            // Ajouter un livre
+        case 1: // Ajouter un livre
             $title = readline("Entrez le titre du livre: ");
             $description = readline("Entrez la description du livre: ");
             $inStock = readline("Le livre est-il en stock (oui/non): ") === 'oui';
@@ -44,8 +43,7 @@ do {
 
             break;
 
-        case 2:
-            // Afficher les livres
+        case 2: // Afficher les livres
             displayBooks($books);
 
             // Ajouter à l'historique
@@ -53,21 +51,16 @@ do {
 
             break;
 
-        case 3:
-            // Modifier un livre
+        case 3: // Modifier un livre
+
             $bookId = readline("Entrez l'ID du livre à modifier: ");
             if (isset($books[$bookId])) {
                 $title = readline("Entrez le nouveau titre du livre: ");
                 $description = readline("Entrez la nouvelle description du livre: ");
                 $inStock = readline("Le livre est-il en stock (yes/no): ") === 'yes';
 
-                $books[$bookId] = [
-                    'Titre' => $title,
-                    'description' => $description,
-                    'inStock' => $inStock
-                ];
+                modifyBook($bookId, $title, $description, $inStock);
 
-                saveBooks($books);
                 echo "Livre modifié avec succès!\n";
 
                 // Ajouter à l'historique
