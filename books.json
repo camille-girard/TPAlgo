@@ -1,17 +1,22 @@
 {
-    "book_2": {
-        "titre": "tolea ",
-        "description": "tolea",
-        "inStock": false
-    },
-    "book_3": {
-        "titre": "tti",
-        "description": "toto",
+    "1": {
+        "titre": "catalina",
+        "description": "tat",
         "inStock": true
     },
-    "book_4": {
-        "titre": "Catalina",
-        "description": "toto",
+    "2": {
+        "titre": "tolelee",
+        "description": "eepdfzs",
+        "inStock": true
+    },
+    "3": {
+        "titre": "dsj",
+        "description": "sqdsd",
+        "inStock": false
+    },
+    "4": {
+        "titre": "sqdkqjs",
+        "description": "sqds",
         "inStock": true
     }
 }
