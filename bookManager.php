@@ -1,5 +1,6 @@
 <?php
 include_once 'storageManager.php';
+include_once 'functions.php';
 
 // Charge les livres depuis le fichier JSON
 function createBook(&$books, $title, $description, $inStock) {
@@ -46,9 +47,9 @@ function deleteBookById(&$books, $id) {
     if (isset($books[$id])) {
         unset($books[$id]);
         saveBooks($books);
-        echo "Livre supprimé avec succès !\n";
+        success("Livre supprimé avec succès !");
     } else {
-        echo "Aucun livre trouvé avec l'ID : $id.\n";
+        error("Aucun livre trouvé avec l'ID : $id.");
     }
 }
 
@@ -66,13 +67,13 @@ function deleteBookByOtherCriteria(&$books, $criterion, $value) {
 
     switch (count($foundBooks)) {
         case 0:
-            echo "Aucun livre trouvé avec le critère $criterion '$value'.\n";
+            error("Aucun livre trouvé avec le critère $criterion '$value'.");
             break;
         case 1:
             $id = array_key_first($foundBooks);
             unset($books[$id]);
             saveBooks($books);
-            echo "Le livre avec le critère '$value' a été supprimé.\n";
+            success("Le livre avec le critère '$value' a été supprimé.");
             break;
         default:
             handleMultipleBooksDeletion($books, $foundBooks, $criterion, $value);
@@ -83,8 +84,10 @@ function deleteBookByOtherCriteria(&$books, $criterion, $value) {
 // Gère la suppression de plusieurs livres trouvés avec le même critère
 function handleMultipleBooksDeletion(&$books, $foundBooks, $criterion, $value) {
     echo "Plusieurs livres trouvés avec le critère $criterion '$value':\n";
+    echo "\n";
     foreach ($foundBooks as $id => $book) {
         echo "ID: $id, Titre: {$book['titre']}, Description: {$book['description']}\n";
+        echo "\n";
     }
 
     $choice = readline("Voulez-vous supprimer tous les livres trouvés ? (oui/non) : ");
@@ -93,15 +96,15 @@ function handleMultipleBooksDeletion(&$books, $foundBooks, $criterion, $value) {
             unset($books[$id]);
         }
         saveBooks($books);
-        echo "Tous les livres avec le critère $criterion '$value' ont été supprimés.\n";
+        success("Tous les livres avec le critère $criterion '$value' ont été supprimés.");
     } else {
         $chosenId = readline("Entrez l'ID du livre à supprimer : ");
         if (isset($foundBooks[$chosenId])) {
             unset($books[$chosenId]);
             saveBooks($books);
-            echo "Livre avec l'ID $chosenId supprimé.\n";
+            success("Livre avec l'ID $chosenId supprimé.");
         } else {
-            echo "ID invalide. Aucun livre supprimé.\n";
+            error("ID invalide. Aucun livre supprimé.");
         }
     }
 }
@@ -151,7 +154,7 @@ function searchAndDisplayBooks($books, $searchTerm) {
     } elseif (count($results) === 1) {
         displayBooks($results);
     } else {
-        echo "Aucun livre trouvé pour ce terme de recherche.\n";
+        error("Aucun livre trouvé pour ce terme de recherche.");
     }
 }
 
@@ -169,7 +172,7 @@ function getUserChoice($books) {
         if (isset($books[$id])) {
             displayBooks([$id => $books[$id]]);
         } else {
-            echo "ID invalide. Aucun livre affiché.\n";
+            error("ID invalide. Aucun livre affiché.");
         }
     }
 }
