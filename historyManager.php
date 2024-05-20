@@ -1,5 +1,6 @@
 <?php
 
+// Charge l'historique depuis le fichier JSON
 function loadHistory() {
     $filePath = 'history.json';
     if (!file_exists($filePath)) {
@@ -16,6 +17,7 @@ function loadHistory() {
     return $data;
 }
 
+// Sauvegarde l'historique dans le fichier JSON
 function saveHistory($history): bool
 {
     $filePath = 'history.json';
@@ -29,6 +31,7 @@ function saveHistory($history): bool
     return true;
 }
 
+// Ajoute une entrée à l'historique
 function addHistoryEntry(&$history, $action) {
     $entry = [
         'timestamp' => date('Y-m-d H:i:s'),

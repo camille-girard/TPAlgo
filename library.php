@@ -84,6 +84,7 @@ do {
             $question = readline("Voulez-vous supprimer un livre par ID, par titre, par description ou s'il est en stock? (id/titre/description/inStock): ");
             $value = readline("Entrez la valeur du critère: ");
             deleteBookByCriterion($books, $question, $value);
+            // Ajoute à l'historique
             addHistoryEntry($history, "Suppression du livre par $question avec la valeur $value");
 
             break;
@@ -118,6 +119,7 @@ do {
                 $originalBooks[$book['ID']] = $book;
             }
             displayBooks($originalBooks);
+            // Ajoute à l'historique
             addHistoryEntry($history, "Tri des livres par $column en ordre $order");
             break;
 
@@ -154,6 +156,7 @@ do {
                 echo $separator . "\n";
                 error("Aucun livre trouvé pour cette valeur.");
             }
+            // Ajoute à l'historique
             addHistoryEntry($history, "Recherche du livre par $column avec la valeur " . json_encode($searchValue));
             break;
 
