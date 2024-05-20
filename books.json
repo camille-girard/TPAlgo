@@ -1,14 +1,8 @@
-
 {
     "3": {
-        "titre": "dsj",
-        "description": "oui",
+        "titre": "Test modify",
+        "description": "test",
         "inStock": false
-    },
-    "4": {
-        "titre": "sqdkqjs",
-        "description": "sqds",
-        "inStock": true
     },
     "5": {
         "titre": "tata",
@@ -34,6 +28,20 @@
         "titre": "livre",
         "description": "super livre",
         "inStock": true
+    },
+    "11": {
+        "titre": "Catalina",
+        "description": "Danila",
+        "inStock": true
+    },
+    "13": {
+        "titre": "Test couleur",
+        "description": "red",
+        "inStock": true
+    },
+    "14": {
+        "titre": "Test4",
+        "description": "Test4",
+        "inStock": false
     }
 }
-

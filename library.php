@@ -4,7 +4,7 @@ require_once 'utils.php';
 require_once 'storageManager.php';
 require_once 'historyManager.php';
 require_once 'bookManager.php';
-
+require_once 'functions.php';
 
 $separator = str_repeat('-', 10);
 // Affichage du menu et saisie de l'utilisateur
@@ -35,6 +35,7 @@ do {
     echo $separator . "\n";
     echo "\n";
     $choice = readline("Entrez votre choix: ");
+    echo "\n";
 
     switch ($choice) {
         case 1: // Ajoute un livre
@@ -43,7 +44,8 @@ do {
             $inStock = readline("Le livre est-il en stock (oui/non): ") === 'oui';
 
             $bookId = createBook($books, $title, $description, $inStock);
-            echo "Livre ajouté avec succès!\n";
+            echo $separator . "\n";
+            success("Livre ajouté avec succès!");
 
             // Ajoute à l'historique
             addHistoryEntry($history, "Ajout du livre ID: $bookId, Titre: $title");
@@ -58,8 +60,8 @@ do {
                 $inStock = readline("Le livre est-il en stock (oui/non): ") === 'oui';
 
                 modifyBook($books, $bookId, $title, $description, $inStock);
-
-                echo "Livre modifié avec succès!\n";
+                echo $separator . "\n";
+                success("Livre modifié avec succès!");
 
 
                 // Ajoute à l'historique
@@ -67,13 +69,15 @@ do {
 
 
             } else {
-                echo "Livre non trouvé.\n";
+                echo $separator . "\n";
+                error("Livre non trouvé.");
             }
             break;
 
         case 3: // Supprime un livre
             if (empty($books)) {
-                echo "Il n'y a pas de livres à supprimer.\n";
+                echo $separator . "\n";
+                error("Il n'y a pas de livres à supprimer.");
                 break;
             }
 
@@ -102,7 +106,7 @@ do {
             // Crée un nouveau tableau pour qu'il ne trie pas selon les ID actuels
             $sortedBooks = [];
             foreach ($books as $key => $book) {
-                $book['originalID'] = $key;  // Utilise les clés comme ID originaux
+                $book['ID'] = $key;  // Utilise les clés comme ID originaux
                 $sortedBooks[] = $book;
             }
             $column = readline("Entrez la colonne à trier (titre, description, inStock): ");
@@ -111,36 +115,54 @@ do {
             $originalBooks = [];
             //Récupère les ID originaux
             foreach ($sortedBooks as $book) {
-                $originalBooks[$book['originalID']] = $book;
+                $originalBooks[$book['ID']] = $book;
             }
             displayBooks($originalBooks);
             addHistoryEntry($history, "Tri des livres par $column en ordre $order");
             break;
 
         case 7: // Recherche un livre
-            $books = loadBooks();
-            $books = array_values($books); // Convertit le tableau associatif en tableau indexé
-            foreach ($books as $index => $book) {
-                $books[$index]['ID'] = $index + 1;  // Ajoute l'ID basé sur l'index + 1 pour correspondre aux ID
+            $sortedBooks = array_values($books); // Convertit le tableau associatif en indexé
+            foreach ($sortedBooks as $index => $book) {
+                $book['ID'] = array_keys($books)[$index];  // Conserve l'ID original dans une nouvelle clé
+                $sortedBooks[$index] = $book;
             }
+
             $column = readline("Sur quelle colonne voulez-vous rechercher ? (titre, description, inStock, ID): ");
             $searchValue = readline("Entrez la valeur à rechercher: ");
-            mergeSort($books, $column, 'ASC'); // Tri avant la recherche
-            $index = binarySearch($books, $column, $searchValue);
-            if ($index != -1) {
-                echo "Livre trouvé:\n";
-                displayBooks([$books[$index]]);  // Affiche seulement le livre trouvé
-            } else {
-                echo "Aucun livre trouvé pour cette valeur.\n";
+
+            // Conversion des entrées pour inStock et ID
+            if ($column == 'inStock') {
+                $searchValue = strtolower($searchValue) == 'oui' ? true : false;
+            } elseif ($column == 'ID') {
+                $searchValue = (int) $searchValue; // Convertit la valeur de recherche en numérique pour les ID
             }
-            addHistoryEntry($history, "Recherche du livre par $column avec la valeur $searchValue");
+
+            // Tri avant la recherche
+            mergeSort($sortedBooks, $column, 'ASC');
+
+            $indices = binarySearchAll($sortedBooks, $column, $searchValue);
+            if (!empty($indices)) {
+                echo "Livres trouvés:\n";
+                echo "\n";
+                $results = [];
+                foreach ($indices as $index) {
+                    $results[$sortedBooks[$index]['ID']] = $sortedBooks[$index];
+                }
+                displayBooks($results);
+            } else {
+                echo $separator . "\n";
+                error("Aucun livre trouvé pour cette valeur.");
+            }
+            addHistoryEntry($history, "Recherche du livre par $column avec la valeur " . json_encode($searchValue));
             break;
+
 
 
         case 8:
             // Affiche l'historique
             if (empty($history)) {
-                echo "Aucune action n'a été enregistrée dans l'historique.\n";
+                error("Aucune action n'a été enregistrée dans l'historique.");
             } else {
                 foreach ($history as $entry) {
                     echo "Timestamp: {$entry['timestamp']}, Action: {$entry['action']}\n";
@@ -150,10 +172,11 @@ do {
             break;
 
         case 9:
+
             exit("A bientôt!\n");
 
         default:
-            echo "Choix non valide. Veuillez saisir un chiffre entre 1 et 8.\n";
+            error("Choix non valide. Veuillez saisir un chiffre entre 1 et 8.");
     }
 } while ($choice != 9);
 

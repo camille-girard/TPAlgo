@@ -16,41 +16,68 @@ function mergeSort(&$array, $column, $order = 'ASC') {
     $i = 0;
     $j = 0;
     $k = 0;
+
     while ($i < count($left) && $j < count($right)) {
-        if (($order === 'ASC' && strtolower($left[$i][$column]) <= strtolower($right[$j][$column])) ||
-            ($order === 'DESC' && strtolower($left[$i][$column]) > strtolower($right[$j][$column]))) {
+        // Comparaison tenant compte du type des données
+        $leftVal = $left[$i][$column];
+        $rightVal = $right[$j][$column];
+
+        // Convertir les valeurs en minuscules si ce sont des chaînes pour une comparaison insensible à la casse
+        if (is_string($leftVal) && is_string($rightVal)) {
+            $leftVal = strtolower($leftVal);
+            $rightVal = strtolower($rightVal);
+        }
+
+        if (($order === 'ASC' && $leftVal <= $rightVal) || ($order === 'DESC' && $leftVal > $rightVal)) {
             $array[$k++] = $left[$i++];
         } else {
             $array[$k++] = $right[$j++];
         }
     }
+
     while ($i < count($left)) {
         $array[$k++] = $left[$i++];
     }
+
     while ($j < count($right)) {
         $array[$k++] = $right[$j++];
     }
 }
 
 
-
-function binarySearch($array, $column, $value) {
+function binarySearchAll(&$array, $column, $value) {
     $low = 0;
     $high = count($array) - 1;
+    $result = [];
 
     while ($low <= $high) {
         $mid = floor(($low + $high) / 2);
 
-        if ($array[$mid][$column] == $value) {
-            return $mid; // Returns the index of the found element
-        }
-
-        if ($array[$mid][$column] < $value) {
+        if (strtolower($array[$mid][$column]) < strtolower($value)) {
             $low = $mid + 1;
-        } else {
+        } elseif (strtolower($array[$mid][$column]) > strtolower($value)) {
             $high = $mid - 1;
+        } else {
+            // Trouve l'index initial
+            array_push($result, $mid);
+
+            // Recherche à gauche
+            $left = $mid - 1;
+            while ($left >= 0 && strtolower($array[$left][$column]) == strtolower($value)) {
+                array_push($result, $left);
+                $left--;
+            }
+
+            // Recherche à droite
+            $right = $mid + 1;
+            while ($right < count($array) && strtolower($array[$right][$column]) == strtolower($value)) {
+                array_push($result, $right);
+                $right++;
+            }
+
+            return $result;
         }
     }
 
-    return -1; // Returns -1 if the element is not found
+    return $result;
 }
