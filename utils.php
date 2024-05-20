@@ -17,8 +17,8 @@ function mergeSort(&$array, $column, $order = 'ASC') {
     $j = 0;
     $k = 0;
     while ($i < count($left) && $j < count($right)) {
-        if (($order === 'ASC' && $left[$i][$column] <= $right[$j][$column]) ||
-            ($order === 'DESC' && $left[$i][$column] > $right[$j][$column])) {
+        if (($order === 'ASC' && strtolower($left[$i][$column]) <= strtolower($right[$j][$column])) ||
+            ($order === 'DESC' && strtolower($left[$i][$column]) > strtolower($right[$j][$column]))) {
             $array[$k++] = $left[$i++];
         } else {
             $array[$k++] = $right[$j++];
@@ -54,4 +54,3 @@ function binarySearch($array, $column, $value) {
 
     return -1; // Returns -1 if the element is not found
 }
-

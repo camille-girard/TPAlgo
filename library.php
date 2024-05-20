@@ -9,13 +9,13 @@ require_once 'bookManager.php';
 $separator = str_repeat('-', 10);
 // Affichage du menu et saisie de l'utilisateur
 do {
-    // Charger l'historique
+    // Charge l'historique
     $history = loadHistory();
     if ($history === null) {
         $history = [];
     }
 
-    // Charger les livres
+    // Charge les livres
     $books = loadBooks();
     if ($books === null) {
         $books = [];
@@ -37,7 +37,7 @@ do {
     $choice = readline("Entrez votre choix: ");
 
     switch ($choice) {
-        case 1: // Ajouter un livre
+        case 1: // Ajoute un livre
             $title = readline("Entrez le titre du livre: ");
             $description = readline("Entrez la description du livre: ");
             $inStock = readline("Le livre est-il en stock (oui/non): ") === 'oui';
@@ -45,12 +45,12 @@ do {
             $bookId = createBook($books, $title, $description, $inStock);
             echo "Livre ajouté avec succès!\n";
 
-            // Ajouter à l'historique
+            // Ajoute à l'historique
             addHistoryEntry($history, "Ajout du livre ID: $bookId, Titre: $title");
 
             break;
 
-        case 2: // Modifier un livre
+        case 2: // Modifie un livre
             $bookId = readline("Entrez l'ID du livre à modifier: ");
             if (isset($books[$bookId])) {
                 $title = readline("Entrez le nouveau titre du livre: ");
@@ -62,7 +62,7 @@ do {
                 echo "Livre modifié avec succès!\n";
 
 
-                // Ajouter à l'historique
+                // Ajoute à l'historique
                 addHistoryEntry($history, "Modification du livre ID: $bookId, Nouveau titre: $title");
 
 
@@ -71,7 +71,7 @@ do {
             }
             break;
 
-        case 3: // Supprimer un livre
+        case 3: // Supprime un livre
             if (empty($books)) {
                 echo "Il n'y a pas de livres à supprimer.\n";
                 break;
@@ -84,36 +84,44 @@ do {
 
             break;
 
-        case 4: // Afficher les livres
+        case 4: // Affiche les livres
             displayBooks($books);
 
-            // Ajouter à l'historique
+            // Ajoute à l'historique
             addHistoryEntry($history, "Affichage de tous les livres");
 
             break;
 
-        case 5: // Afficher un seul livre
+        case 5: // Affiche un seul livre
             $searchTerm = readline("Entrez le terme de recherche: ");
             searchAndDisplayBooks($books, $searchTerm);
             break;
 
-        case 6:  // Trier les livres
+        case 6:  // Trie les livres
             $books = loadBooks();
+            // Crée un nouveau tableau pour qu'il ne trie pas selon les ID actuels
+            $sortedBooks = [];
             foreach ($books as $key => $book) {
-                $books[$key]['originalID'] = $key;  // Utilisez les clés comme ID originaux
+                $book['originalID'] = $key;  // Utilise les clés comme ID originaux
+                $sortedBooks[] = $book;
             }
             $column = readline("Entrez la colonne à trier (titre, description, inStock): ");
             $order = readline("Par ordre (ASC/DESC): ");
-            mergeSort($books, $column, $order);
-            displayBooks($books);
+            mergeSort($sortedBooks, $column, $order);
+            $originalBooks = [];
+            //Récupère les ID originaux
+            foreach ($sortedBooks as $book) {
+                $originalBooks[$book['originalID']] = $book;
+            }
+            displayBooks($originalBooks);
             addHistoryEntry($history, "Tri des livres par $column en ordre $order");
             break;
 
-        case 7: // Rechercher un livre
+        case 7: // Recherche un livre
             $books = loadBooks();
             $books = array_values($books); // Convertit le tableau associatif en tableau indexé
             foreach ($books as $index => $book) {
-                $books[$index]['ID'] = $index + 1;  // Ajouter l'ID basé sur l'index + 1 pour correspondre à vos ID
+                $books[$index]['ID'] = $index + 1;  // Ajoute l'ID basé sur l'index + 1 pour correspondre aux ID
             }
             $column = readline("Sur quelle colonne voulez-vous rechercher ? (titre, description, inStock, ID): ");
             $searchValue = readline("Entrez la valeur à rechercher: ");
@@ -130,7 +138,7 @@ do {
 
 
         case 8:
-            // Afficher l'historique
+            // Affiche l'historique
             if (empty($history)) {
                 echo "Aucune action n'a été enregistrée dans l'historique.\n";
             } else {
@@ -148,5 +156,4 @@ do {
             echo "Choix non valide. Veuillez saisir un chiffre entre 1 et 8.\n";
     }
 } while ($choice != 9);
-
 
