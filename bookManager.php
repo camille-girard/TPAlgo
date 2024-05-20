@@ -1,11 +1,11 @@
 <?php
 include_once 'storageManager.php';
 
-// Charger les livres depuis le fichier JSON
+// Charge les livres depuis le fichier JSON
 function createBook(&$books, $title, $description, $inStock) {
     $maxId = 0;
 
-    // Parcourir les clés pour trouver le plus grand ID
+    // Parcours les clés pour trouver le plus grand ID
     foreach ($books as $key => $value) {
         if ($key > $maxId) {
             $maxId = $key;
@@ -15,16 +15,17 @@ function createBook(&$books, $title, $description, $inStock) {
     // L'ID suivant est le maximum actuel + 1
     $newId = $maxId + 1;
 
-    // Ajouter le nouveau livre avec l'ID incrémenté
+    // Ajoute le nouveau livre avec l'ID incrémenté
     $books[$newId] = ['titre' => $title, 'description' => $description, 'inStock' => $inStock];
 
-    // Sauvegarder les livres mis à jour
+    // Sauvegarde les livres mis à jour
     saveBooks($books);
 
     return $newId;
 }
 
 
+// Modifie les livres en fonction des paramètres fournis
 function modifyBook(&$books, $id, $title, $description, $inStock) {
     if ($title !== '') $books[$id]['titre'] = $title;
     if ($description !== '') $books[$id]['description'] = $description;
@@ -32,7 +33,7 @@ function modifyBook(&$books, $id, $title, $description, $inStock) {
     saveBooks($books);
 }
 
-
+// Supprime un livre en fonction du critère et de la valeur fournis
 function deleteBookByCriterion(&$books, $criterion, $value) {
     if ($criterion === 'id') {
         deleteBookById($books, $value);
@@ -41,6 +42,7 @@ function deleteBookByCriterion(&$books, $criterion, $value) {
     }
 }
 
+// Supprime un livre par ID
 function deleteBookById(&$books, $id) {
     if (isset($books[$id])) {
         unset($books[$id]);
@@ -51,6 +53,7 @@ function deleteBookById(&$books, $id) {
     }
 }
 
+// Supprime un livre par un autre critère que l'ID
 function deleteBookByOtherCriteria(&$books, $criterion, $value) {
     $isInStock = ($criterion === 'inStock' && $value === 'oui');
     $foundBooks = array_filter($books, function ($book) use ($criterion, $value, $isInStock) {
@@ -78,6 +81,7 @@ function deleteBookByOtherCriteria(&$books, $criterion, $value) {
     }
 }
 
+// Gère la suppression de plusieurs livres trouvés avec le même critère
 function handleMultipleBooksDeletion(&$books, $foundBooks, $criterion, $value) {
     echo "Plusieurs livres trouvés avec le critère $criterion '$value':\n";
     foreach ($foundBooks as $id => $book) {
@@ -105,9 +109,9 @@ function handleMultipleBooksDeletion(&$books, $foundBooks, $criterion, $value) {
 
 
 
-// Fonction pour afficher les livres
+// Affiche les livres
 function displayBooks($books) {
-    // Déterminer la longueur maximale pour chaque colonne pour un alignement propre
+    // Détermine la longueur maximale pour chaque colonne pour un alignement propre
     $maxLengthId = 2;
     $maxLengthTitle = 5;
     $maxLengthDesc = 11;
@@ -124,7 +128,7 @@ function displayBooks($books) {
     echo "| " . str_pad("ID", $maxLengthId) . " | " . str_pad("Title", $maxLengthTitle) . " | " . str_pad("Description", $maxLengthDesc) . " | " . str_pad("In Stock", $maxLengthStock) . " |\n";
     echo "+-" . str_repeat('-', $maxLengthId) . "-+-" . str_repeat('-', $maxLengthTitle) . "-+-" . str_repeat('-', $maxLengthDesc) . "-+-" . str_repeat('-', $maxLengthStock) . "-+\n";
 
-    // Afficher les données de chaque livre
+    // Affiche les données de chaque livre
     foreach ($books as $id => $book) {
         $title = $book['titre'] ?? '';
         $description = $book['description'] ?? '';
@@ -136,7 +140,7 @@ function displayBooks($books) {
     echo "+-" . str_repeat('-', $maxLengthId) . "-+-" . str_repeat('-', $maxLengthTitle) . "-+-" . str_repeat('-', $maxLengthDesc) . "-+-" . str_repeat('-', $maxLengthStock) . "-+\n";
 }
 
-
+// Recherche et affiche les livres
 function searchAndDisplayBooks($books, $searchTerm) {
     $results = array_filter($books, function($book) use ($searchTerm) {
         return stripos($book['titre'], $searchTerm) !== false ||
@@ -152,6 +156,7 @@ function searchAndDisplayBooks($books, $searchTerm) {
     }
 }
 
+// Demande à l'utilisateur de choisir un livre parmi les résultats de la recherche
 function getUserChoice($books) {
     echo "Plusieurs livres correspondent à votre recherche. \n";
     echo "Voulez-vous afficher tous les livres? (oui/non): ";
