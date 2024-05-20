@@ -63,7 +63,6 @@ do {
                 echo $separator . "\n";
                 success("Livre modifié avec succès!");
 
-
                 // Ajoute à l'historique
                 addHistoryEntry($history, "Modification du livre ID: $bookId, Nouveau titre: $title");
 
@@ -82,11 +81,13 @@ do {
             }
 
             $question = readline("Voulez-vous supprimer un livre par ID, par titre, par description ou s'il est en stock? (id/titre/description/inStock): ");
-            $value = readline("Entrez la valeur du critère: ");
-            deleteBookByCriterion($books, $question, $value);
-            // Ajoute à l'historique
-            addHistoryEntry($history, "Suppression du livre par $question avec la valeur $value");
-
+            // Vérifie si les colonnes sont valides
+            if (validateColumns([$question == 'id' ? 'ID' : $question])) {
+                $value = readline("Entrez la valeur du critère: ");
+                deleteBookByCriterion($books, $question, $value);
+                // Ajoute à l'historique
+                addHistoryEntry($history, "Suppression du livre par $question avec la valeur $value");
+            }
             break;
 
         case 4: // Affiche les livres
@@ -111,16 +112,20 @@ do {
                 $sortedBooks[] = $book;
             }
             $column = readline("Entrez la colonne à trier (titre, description, inStock): ");
-            $order = readline("Par ordre (ASC/DESC): ");
-            mergeSort($sortedBooks, $column, $order);
-            $originalBooks = [];
-            //Récupère les ID originaux
-            foreach ($sortedBooks as $book) {
-                $originalBooks[$book['ID']] = $book;
+
+            // Vérifie si les colonnes de tri sont valides
+            if (validateColumns([$column])) {
+                $order = readline("Par ordre (ASC/DESC): ");
+                mergeSort($sortedBooks, $column, $order);
+                $originalBooks = [];
+                //Récupère les ID originaux
+                foreach ($sortedBooks as $book) {
+                    $originalBooks[$book['ID']] = $book;
+                }
+                displayBooks($originalBooks);
+                // Ajoute à l'historique
+                addHistoryEntry($history, "Tri des livres par $column en ordre $order");
             }
-            displayBooks($originalBooks);
-            // Ajoute à l'historique
-            addHistoryEntry($history, "Tri des livres par $column en ordre $order");
             break;
 
         case 7: // Recherche un livre
@@ -131,33 +136,36 @@ do {
             }
 
             $column = readline("Sur quelle colonne voulez-vous rechercher ? (titre, description, inStock, ID): ");
-            $searchValue = readline("Entrez la valeur à rechercher: ");
+            // Valider la colonne avant la recherche
+            if (validateColumns([$column])) {
+                $searchValue = readline("Entrez la valeur à rechercher: ");
 
-            // Conversion des entrées pour inStock et ID
-            if ($column == 'inStock') {
-                $searchValue = strtolower($searchValue) == 'oui' ? true : false;
-            } elseif ($column == 'ID') {
-                $searchValue = (int) $searchValue; // Convertit la valeur de recherche en numérique pour les ID
-            }
-
-            // Tri avant la recherche
-            mergeSort($sortedBooks, $column, 'ASC');
-
-            $indices = binarySearchAll($sortedBooks, $column, $searchValue);
-            if (!empty($indices)) {
-                echo "Livres trouvés:\n";
-                echo "\n";
-                $results = [];
-                foreach ($indices as $index) {
-                    $results[$sortedBooks[$index]['ID']] = $sortedBooks[$index];
+                // Conversion des entrées pour inStock et ID
+                if ($column == 'inStock') {
+                    $searchValue = strtolower($searchValue) == 'oui' ? true : false;
+                } elseif ($column == 'ID') {
+                    $searchValue = (int) $searchValue; // Convertit la valeur de recherche en numérique pour les ID
                 }
-                displayBooks($results);
-            } else {
-                echo $separator . "\n";
-                error("Aucun livre trouvé pour cette valeur.");
+
+                // Tri avant la recherche
+                mergeSort($sortedBooks, $column, 'ASC');
+
+                $indices = binarySearchAll($sortedBooks, $column, $searchValue);
+                if (!empty($indices)) {
+                    echo "Livres trouvés:\n";
+                    echo "\n";
+                    $results = [];
+                    foreach ($indices as $index) {
+                        $results[$sortedBooks[$index]['ID']] = $sortedBooks[$index];
+                    }
+                    displayBooks($results);
+                } else {
+                    echo $separator . "\n";
+                    error("Aucun livre trouvé pour cette valeur.");
+                }
+                // Ajoute à l'historique
+                addHistoryEntry($history, "Recherche du livre par $column avec la valeur " . json_encode($searchValue));
             }
-            // Ajoute à l'historique
-            addHistoryEntry($history, "Recherche du livre par $column avec la valeur " . json_encode($searchValue));
             break;
 
 

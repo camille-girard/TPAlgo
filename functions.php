@@ -13,3 +13,18 @@ function success($text) {
     echo "\n";
 }
 
+//Valide les colonnes fournies par l'utilisateur pour rechercher ou afficher des livres
+function validateColumns($columns) {
+    // Défini les noms de colonnes valides
+    $validColumns = ['titre', 'description', 'inStock'];
+
+    // Vérifier chaque colonne fournie
+    foreach ($columns as $column) {
+        if (!in_array($column, $validColumns)) {
+            // Si la colonne n'est pas valide, afficher un message d'erreur
+            error("Erreur: Colonne '$column' non valide. Veuillez saisir un des termes de colonne suivants: " . implode(", ", $validColumns) . ".");
+            return false; // Arrête l'exécution si une colonne est invalide
+        }
+    }
+    return true;
+}
