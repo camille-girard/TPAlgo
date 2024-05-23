@@ -25,7 +25,7 @@ function createBook(&$books, $title, $description, $inStock) {
     return $newId;
 }
 
-
+// Modifie un livre en fonction de l'ID fourni
 function modifyBook(&$books, $id, $title, $description, $inStock) {
     if ($title !== '') $books[$id]['titre'] = $title;
     if ($description !== '') $books[$id]['description'] = $description;
@@ -64,7 +64,7 @@ function deleteBookByOtherCriteria(&$books, $criterion, $value) {
         }
     });
 
-
+    // Gère les cas où aucun livre ou plusieurs livres sont trouvés
     switch (count($foundBooks)) {
         case 0:
             error("Aucun livre trouvé avec le critère $criterion '$value'.");
@@ -89,7 +89,7 @@ function handleMultipleBooksDeletion(&$books, $foundBooks, $criterion, $value) {
         echo "ID: $id, Titre: {$book['titre']}, Description: {$book['description']}\n";
         echo "\n";
     }
-
+    // Demande à l'utilisateur s'il veut supprimer tous les livres trouvés
     $choice = readline("Voulez-vous supprimer tous les livres trouvés ? (oui/non) : ");
     if (strtolower($choice) === 'oui') {
         foreach ($foundBooks as $id => $book) {
@@ -118,7 +118,7 @@ function displayBooks($books) {
     $maxLengthTitle = 5;
     $maxLengthDesc = 11;
     $maxLengthStock = 8;
-
+    // Parcours les livres pour trouver les longueurs maximales
     foreach ($books as $id => $book) {
         $maxLengthId = max($maxLengthId, strlen($id));
         $maxLengthTitle = max($maxLengthTitle, strlen($book['titre'] ?? ''));
@@ -142,13 +142,13 @@ function displayBooks($books) {
     echo "+-" . str_repeat('-', $maxLengthId) . "-+-" . str_repeat('-', $maxLengthTitle) . "-+-" . str_repeat('-', $maxLengthDesc) . "-+-" . str_repeat('-', $maxLengthStock) . "-+\n";
 }
 
-
+// Recherche et affiche les livres en fonction du terme de recherche fourni
 function searchAndDisplayBooks($books, $searchTerm) {
     $results = array_filter($books, function($book) use ($searchTerm) {
         return stripos($book['titre'], $searchTerm) !== false ||
-               stripos($book['description'], $searchTerm) !== false;
+            stripos($book['description'], $searchTerm) !== false;
     });
-
+    // Demande à l'utilisateur de choisir quel livre afficher et affiche les livres trouvés
     if (count($results) > 1) {
         getUserChoice($results);
     } elseif (count($results) === 1) {
@@ -163,7 +163,7 @@ function getUserChoice($books) {
     echo "Plusieurs livres correspondent à votre recherche. \n";
     echo "Voulez-vous afficher tous les livres? (oui/non): ";
     $choice = strtolower(trim(readline()));
-
+    // Demande à l'utilisateur de choisir un livre par ID et affiche tous les livres de la recherche
     if ($choice === 'oui') {
         displayBooks($books);
     } else {

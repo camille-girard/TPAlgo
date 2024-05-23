@@ -2,6 +2,7 @@
 include_once 'storageManager.php';
 include_once 'historyManager.php';
 
+// Charge les livres depuis le fichier JSON
 function mergeSort(&$array, $column, $order = 'ASC') {
     if (count($array) < 2) {
         return;  // Le tableau est déjà trié s'il contient 0 ou 1 élément
@@ -44,7 +45,7 @@ function mergeSort(&$array, $column, $order = 'ASC') {
     }
 }
 
-
+// Recherche binaire pour trouver un élément dans un tableau
 function binarySearchAll(&$array, $column, $value) {
     $low = 0;
     $high = count($array) - 1;
